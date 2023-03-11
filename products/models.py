@@ -1,5 +1,4 @@
 from django.db import models
-from django.utils.text import slugify
 import random
 
 class Category(models.Model):
@@ -16,18 +15,18 @@ class Category(models.Model):
 
 class Product(models.Model):
 
-    EXTRA_SMALL = 'XS'
-    SMALL = 'S'
-    MEDIUM = 'M'
-    LARGE = 'L'
-    EXTRA_LARGE = 'XL'
+    A = 'XS'
+    B = 'S'
+    C = 'M'
+    D = 'L'
+    E = 'XL'
 
     SIZE_CHOICES = [
-        (EXTRA_SMALL, 'XS'),
-        (SMALL, 'S'),
-        (MEDIUM, 'M'),
-        (LARGE, 'L'),
-        (EXTRA_LARGE, 'XL')
+        (A, 'XS'),
+        (B, 'S'),
+        (C, 'M'),
+        (D, 'L'),
+        (E, 'XL')
     ]
 
 
@@ -45,17 +44,16 @@ class Product(models.Model):
     size = models.CharField(max_length=50, choices=SIZE_CHOICES)
 
     def save(self, *args, **kwargs):
+
         if not self.size:
             self.size = random.choices(self.SIZE_CHOICES)[0][0]
-        
-        if not self.slug:
-            self.slug = slugify(self.title)
 
         super(Product, self).save(*args, ** kwargs)
 
 
     class Meta:
-        ordering = ['title']
+
+        ordering = ['-created']
 
     def __str__(self):
         return self.title

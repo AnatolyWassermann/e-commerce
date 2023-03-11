@@ -6,7 +6,7 @@ from django.http import HttpResponse
 
 
 
-def populate_models(request):
+def populate_db(request):
     r = requests.get('https://fakestoreapi.com/products')
     for item in r.json():
         category_title = item['category']
@@ -22,5 +22,5 @@ def populate_models(request):
         )
         product.save()
 
-    return HttpResponse('<p>LOAD MODELS</p>')
+    return HttpResponse('<p>Database populated!</p>')
 

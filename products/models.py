@@ -29,8 +29,6 @@ class Product(models.Model):
         (E, 'XL')
     ]
 
-
-
     title = models.CharField(max_length=255, unique=True)
     slug = models.SlugField(max_length=255, null=True, blank=True)
     price = models.DecimalField(max_digits=5, decimal_places=2)
@@ -43,16 +41,7 @@ class Product(models.Model):
     # created_by = models.ForeignKey(User, related_name='products', null=True, on_delete=models.CASCADE)
     size = models.CharField(max_length=50, choices=SIZE_CHOICES)
 
-    def save(self, *args, **kwargs):
-
-        if not self.size:
-            self.size = random.choices(self.SIZE_CHOICES)[0][0]
-
-        super(Product, self).save(*args, ** kwargs)
-
-
     class Meta:
-
         ordering = ['-created']
 
     def __str__(self):

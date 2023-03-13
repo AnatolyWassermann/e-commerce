@@ -36,7 +36,7 @@ class Product(models.Model):
     image_url = models.CharField(null=True, blank=True, max_length=255)
     quantity = models.PositiveBigIntegerField(default=0)
     active = models.BooleanField(default=False)
-    likes = models.ManyToManyField(User, related_name='likes', blank=True, null=True)
+    likes = models.ManyToManyField(User, related_name='likes', blank=True)
     category = models.ForeignKey('Category', related_name='products', on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True)
     # created_by = models.ForeignKey(User, related_name='products', null=True, on_delete=models.CASCADE)

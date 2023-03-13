@@ -1,0 +1,23 @@
+{% for obj in object %}
+<ul><br><br>
+    <li>
+        Title: {{obj.title}}
+    </li>
+    <li>
+        Description: {{obj.desc}}
+    </li>
+    <li>
+        Price: {{ obj.price }}$
+    </li>
+    <a href="{% url 'product' obj.slug %}"><img src="{{obj.image_url}}"></a>
+    <li>
+        Quantity: {{obj.quantity}}
+    </li>
+    <li>
+        Category: {{obj.category}}
+    </li>
+    <li>
+        Size: {{obj.size}}
+    </li>
+</ul>
+{% endfor %}

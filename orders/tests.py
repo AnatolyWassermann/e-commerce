@@ -38,7 +38,7 @@ class OrderItemModelTestCase(TestCase):
         self.order_item = OrderItem.objects.create(
             order=self.order, product=self.product, quantity=self.rng)
 
-    def test_order_item_str(self):
+    def test_str_presentation(self):
         expected = f"{self.rng}x {self.product} in {self.order}"
         self.assertEqual(str(self.order_item), expected)
 

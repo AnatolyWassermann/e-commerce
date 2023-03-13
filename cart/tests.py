@@ -20,10 +20,16 @@ class CartTestCase(TestCase):
         self.assertEqual(self.cart_item1.product, self.product1)
         self.assertEqual(self.cart_item1.quantity, self.rng)
         self.assertEqual(self.cart_item1.cart, self.cart)
+    
+    def test_str_presentation(self):
+        self.assertEqual(str(self.cart_item1), f"{self.rng} x {self.product1.title}")
+        self.assertEqual(str(self.cart), f"{self.user}'s Cart")
+
+
 
     def test_cart_total_price(self):
 
-        expected_cart_total_price = self.rng * self.product1.price + self.product2.price
+        expected_cart_total_price = self.rng * (self.product1.price + self.product2.price)
         expected_cart_item_price = self.rng * self.product1.price
         
         self.assertEqual(self.cart.total_price, expected_cart_total_price)

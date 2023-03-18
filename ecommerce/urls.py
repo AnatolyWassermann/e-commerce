@@ -17,6 +17,8 @@ from django.contrib import admin
 from django.urls import path, include
 from products import urls as products_urls
 from frontend import urls as frontend_urls
+from cart import urls as cart_urls
+
 
 
 urlpatterns = [
@@ -24,4 +26,6 @@ urlpatterns = [
     path('', include(frontend_urls)),
     path('models/', include(products_urls)),
     path('accounts/', include('allauth.urls')),
+    path('cart/', include(cart_urls))
+   
 ]

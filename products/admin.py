@@ -3,9 +3,16 @@ from .models import Product, Category
 
 class ProductAdmin(admin.ModelAdmin):
     list_display = ['id', 'title', 'size', 'quantity', 'price', 'category', 'active', 'created']
-    search_fields = ['title', 'size', 'category__title', 'active']
+    list_editable = ['price', 'quantity', 'active']
+    list_filter = ['active']
+    search_fields = ['title', 'size', 'category__title']
+    
 
 admin.site.register(Product, ProductAdmin)
 
-admin.site.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ['title']
+    search_fields = ['title']
+
+admin.site.register(Category, CategoryAdmin)
 

@@ -20,6 +20,13 @@ def add_to_cart(request, slug):
 def cart_detail(request):
     cart = Cart.objects.filter(user=request.user)
     total = sum(item.get_total() for item in cart)
+    if request.method == 'POST':
+        for item in cart[0].cartitem_set.all():
+            quantity = request.POST.get(f'quantity_{item.id}')
+            if quantity is not None:
+                item.quantity = int(quantity)
+                item.save()
+        total = sum(item.get_total() for item in cart)
     context = {
         'cart': cart,
         'total': total
@@ -32,4 +39,5 @@ def remove_from_cart(request, slug):
     product = get_object_or_404(Product, slug=slug)
     cart = Cart.objects.get(user=request.user)
     cart.products.remove(product)
-    return redirect('cart:cart_detail')
+    return redirect('cart_detail')
+

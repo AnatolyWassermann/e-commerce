@@ -19,5 +19,11 @@
     <li>
         Size: {{obj.size}}
     </li>
+    <form method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="product_id" value="{{ obj.pk }}">
+        <button type="submit" name="like">Like</button>
+      </form>
+      <p>{{obj.favorites.count}}</p>
 </ul>
 {% endfor %}

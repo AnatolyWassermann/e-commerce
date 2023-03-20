@@ -1,20 +1,21 @@
 <h1>Cart Detail</h1>
 
 {% if cart %}
-  <form method="POST" action="{% url 'cart:cart_detail' %}">
+  <form method="post" action="{% url 'cart:cart_detail' %}">
     {% csrf_token %}
     <table>
       <thead>
         <tr>
           <th>Product</th>
           <th>Quantity</th>
+          >
           <th>Price</th>
           <th>Subtotal</th>
           <th>Action</th>
         </tr>
       </thead>
       <tbody>
-        {% for cart_item in cart.0.cartitem_set.all %}
+        {% for cart_item in cart.items.all %}
           <tr>
             <td>{{ cart_item.product.title }}</td>
             <td><input type="number" name="quantity_{{ cart_item.id }}" value="{{ cart_item.quantity }}"></td>

@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from .models import Cart, CartItem
 from products.models import Product
 
+
 @login_required
 def add_to_cart(request, slug):
     product = get_object_or_404(Product, slug=slug)
@@ -18,15 +19,24 @@ def add_to_cart(request, slug):
 
 @login_required
 def cart_detail(request):
-    cart = Cart.objects.filter(user=request.user)
-    total = sum(item.get_total() for item in cart)
+    cart = Cart.objects.get(user=request.user)
+     # calculate total cart price using @property
+    total = cart.get_total
     if request.method == 'POST':
-        for item in cart[0].cartitem_set.all():
+        for item in cart.items.all():
             quantity = request.POST.get(f'quantity_{item.id}')
             if quantity is not None:
+                try:
+                    if int(quantity) < 1:
+                        quantity = 1
+                    if int(quantity) > item.product.quantity:
+                        quantity = item.product.quantity
+                except ValueError:
+                    quantity = 1
                 item.quantity = int(quantity)
                 item.save()
-        total = sum(item.get_total() for item in cart)
+        # if cart is updated calculate total again
+        total = cart.get_total
     context = {
         'cart': cart,
         'total': total
@@ -39,5 +49,5 @@ def remove_from_cart(request, slug):
     product = get_object_or_404(Product, slug=slug)
     cart = Cart.objects.get(user=request.user)
     cart.products.remove(product)
-    return redirect('cart_detail')
+    return redirect('cart:cart_detail')
 

@@ -34,3 +34,6 @@ class ProductModelTest(TestCase):
         self.assertEqual(slug, slugified_title)
 
 
+
+
+

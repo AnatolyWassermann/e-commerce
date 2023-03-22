@@ -42,13 +42,8 @@ INSTALLED_APPS = [
     #my app
     'products',
     'cart',
-    'frontend',
-    'django.contrib.sites',
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    'allauth.socialaccount.providers.github',
-    'allauth.socialaccount.providers.discord',
+    'rest_framework',
+
     
     'django.contrib.admin',
     'django.contrib.auth',
@@ -147,40 +142,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # my app
 
-AUTHENTICATION_BACKENDS = [
-    
-    # Needed to login by username in Django admin, regardless of `allauth`
-    'django.contrib.auth.backends.ModelBackend',
 
-    # `allauth` specific authentication methods, such as login by e-mail
-    'allauth.account.auth_backends.AuthenticationBackend',
-    
-]
-
-SITE_ID = 1
-
-SOCIALACCOUNT_PROVIDERS = {
-    'github': {
-        # For each OAuth based provider, either add a ``SocialApp``
-        # (``socialaccount`` app) containing the required client
-        # credentials, or list them here:
-        'APP': {
-            'client_id': config('github_client_id'),
-            'secret': config('github_secret'),
-            'key': ''
-        }
-    },
-    'discord': {
-        # For each OAuth based provider, either add a ``SocialApp``
-        # (``socialaccount`` app) containing the required client
-        # credentials, or list them here:
-        'APP': {
-            'client_id': config('discord_client_id'),
-            'secret': config('discord_secret'),
-            'key': config('discord_key')
-        }
-    }
-}
-
-LOGIN_REDIRECT_URL = '/'
-CART_SESSION_ID = 'cart'
+LOGIN_REDIRECT_URL = 'api/'

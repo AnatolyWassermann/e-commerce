@@ -6,10 +6,12 @@ class ProductSerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(
         view_name = "product_detail",
         lookup_field = "pk")
+    category = serializers.PrimaryKeyRelatedField(queryset=Category.objects.all())
+    
     class Meta:
         model = Product
         fields = ['url', 'id', 'title', 'slug', 'size', 'price', 'desc', 
-                  'image_url', 'quantity', 'active', 'created']
+                  'category', 'image_url', 'quantity', 'active', 'created']
         
 class CategorySerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(

@@ -1,5 +1,5 @@
 from django_filters import rest_framework as filters
-from products.models import Product, Category
+from products.models import Product, Category, ProductFav
 from django_filters.widgets import BooleanWidget
 
 
@@ -28,3 +28,10 @@ class CategoryFilter(filters.FilterSet):
         model = Category
         fields = ['title']
 
+class ProductFavFilter(filters.FilterSet):
+    user = filters.NumberFilter(lookup_expr='exact')
+    product = filters.NumberFilter(lookup_expr='exact')
+
+    class Meta:
+        model = ProductFav
+        fields = ['user', 'product']

@@ -1,6 +1,7 @@
 from django_filters import rest_framework as filters
 from products.models import Product, Category, ProductFav
 from django_filters.widgets import BooleanWidget
+from cart.models import Cart, CartItem
 
 
 class ProductFilter(filters.FilterSet):
@@ -35,3 +36,20 @@ class ProductFavFilter(filters.FilterSet):
     class Meta:
         model = ProductFav
         fields = ['user', 'product']
+
+class CartItemFilter(filters.FilterSet):
+    cart = filters.NumberFilter(lookup_expr='exact')
+    product = filters.NumberFilter(lookup_expr='exact')
+    quantity = filters.RangeFilter(field_name='quantity')
+
+    class Meta:
+        model = CartItem
+        fields = ['cart', 'product', 'quantity']
+
+class CartFilter(filters.FilterSet):
+    user = filters.NumberFilter(lookup_expr='exact')
+    products = filters.NumberFilter(lookup_expr='exact')
+
+    class Meta:
+        model = Cart
+        fields = ['user', 'products']

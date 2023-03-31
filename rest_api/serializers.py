@@ -1,6 +1,7 @@
 from products.models import Product, Category, ProductFav
 from rest_framework import serializers
 from django.contrib.auth.models import User
+from cart.models import Cart, CartItem
 
 
 class ProductSerializer(serializers.HyperlinkedModelSerializer):
@@ -33,4 +34,25 @@ class ProductFavSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = ProductFav
         fields = ['url', 'id', 'user', 'product']
+
+class CartItemSerializer(serializers.HyperlinkedModelSerializer):
+    url = serializers.HyperlinkedIdentityField(
+        view_name = "cartitem_detail",
+        lookup_field = "pk")
+    cart = serializers.PrimaryKeyRelatedField(queryset=Cart.objects.all())
+    product = serializers.PrimaryKeyRelatedField(queryset=Product.objects.all())
     
+    class Meta:
+        model = CartItem
+        fields = ['url', 'id', 'cart', 'product', 'quantity']
+
+class CartSerializer(serializers.HyperlinkedModelSerializer):
+    url = serializers.HyperlinkedIdentityField(
+        view_name = "cart_detail",
+        lookup_field = "pk")
+    user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
+    products = serializers.PrimaryKeyRelatedField(queryset=Product.objects.all(), many=True)
+
+    class Meta:
+        model = Cart
+        fields = ['url', 'id', 'user', 'products']

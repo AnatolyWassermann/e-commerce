@@ -1,8 +1,12 @@
 from products.models import Product, Category, ProductFav
-from .serializers import ProductSerializer, CategorySerializer, ProductFavSerializer
+from cart.models import Cart, CartItem
+from .serializers import (ProductSerializer, CategorySerializer, 
+                          ProductFavSerializer, CartItemSerializer,
+                          CartSerializer)
 from rest_framework import viewsets, generics
-from .filters import ProductFilter, CategoryFilter, ProductFavFilter
-from django_filters import rest_framework as filters
+from .filters import (ProductFilter, CategoryFilter, 
+                      ProductFavFilter, CartItemFilter,
+                      CartFilter)
 from django.views.decorators.cache import cache_page
 from django.utils.decorators import method_decorator
 from django.views.decorators.vary import vary_on_cookie
@@ -39,6 +43,25 @@ class ProductFavViewSet(viewsets.ModelViewSet):
     @method_decorator(cache_page(60*15))
     def dispatch(self, *args, **kwargs):
         return super(ProductFavViewSet, self).dispatch(*args, **kwargs)
+    
+class CartItemViewSet(viewsets.ModelViewSet):
+    queryset = CartItem.objects.all()
+    serializer_class = CartItemSerializer
+    filterset_class = CartItemFilter
+    @method_decorator(vary_on_cookie)
+    @method_decorator(cache_page(60*15))
+    def dispatch(self, *args, **kwargs):
+        return super(CartItemViewSet, self).dispatch(*args, **kwargs)
+    
+class CartViewSet(viewsets.ModelViewSet):
+    queryset = Cart.objects.all()
+    serializer_class = CartSerializer
+    filterset_class = CartFilter
+    @method_decorator(vary_on_cookie)
+    @method_decorator(cache_page(60*15))
+    def dispatch(self, *args, **kwargs):
+        return super(CartViewSet, self).dispatch(*args, **kwargs)
+
 
 class ProductDetailApiView(generics.RetrieveUpdateDestroyAPIView):
     
@@ -55,6 +78,16 @@ class CategoryDetailApiView(generics.RetrieveUpdateDestroyAPIView):
 class ProductFavDetailApiView(generics.RetrieveUpdateDestroyAPIView):
     queryset = ProductFav.objects.all()
     serializer_class = ProductFavSerializer
+    lookup_field = 'pk'
+
+class CartItemDetailApiView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = CartItem.objects.all()
+    serializer_class = CartItemSerializer
+    lookup_field = 'pk'
+
+class CartDetailApiView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Cart.objects.all()
+    serializer_class = CartSerializer
     lookup_field = 'pk'
 
 

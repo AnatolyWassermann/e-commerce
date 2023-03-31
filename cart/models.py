@@ -11,7 +11,6 @@ class Cart(models.Model):
     def __str__(self):
         return f"{self.user.username}'s cart"
     
-    @property
     def get_total(self):
         cart_items = CartItem.objects.filter(cart=self)
         total = sum(item.get_subtotal() for item in cart_items)

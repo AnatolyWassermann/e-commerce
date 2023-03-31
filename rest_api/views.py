@@ -3,13 +3,17 @@ from cart.models import Cart, CartItem
 from .serializers import (ProductSerializer, CategorySerializer, 
                           ProductFavSerializer, CartItemSerializer,
                           CartSerializer)
-from rest_framework import viewsets, generics
 from .filters import (ProductFilter, CategoryFilter, 
                       ProductFavFilter, CartItemFilter,
                       CartFilter)
+from rest_framework import viewsets, generics
+from rest_framework.decorators import action
+from rest_framework.response import Response
 from django.views.decorators.cache import cache_page
 from django.utils.decorators import method_decorator
 from django.views.decorators.vary import vary_on_cookie
+from rest_framework.views import  APIView
+
 
 
 
@@ -48,6 +52,13 @@ class CartItemViewSet(viewsets.ModelViewSet):
     queryset = CartItem.objects.all()
     serializer_class = CartItemSerializer
     filterset_class = CartItemFilter
+
+    @action(detail=True)
+    def subtotal(self, request, pk=None):
+        cart_item = self.get_object()
+        subtotal = cart_item.get_subtotal()
+        return Response({'subtotal': subtotal})    
+    
     @method_decorator(vary_on_cookie)
     @method_decorator(cache_page(60*15))
     def dispatch(self, *args, **kwargs):
@@ -57,6 +68,13 @@ class CartViewSet(viewsets.ModelViewSet):
     queryset = Cart.objects.all()
     serializer_class = CartSerializer
     filterset_class = CartFilter
+
+    @action(detail=True)
+    def total(self, request, pk=None):
+        cart = self.get_object()
+        total = cart.get_total()
+        return Response({'total': total})
+    
     @method_decorator(vary_on_cookie)
     @method_decorator(cache_page(60*15))
     def dispatch(self, *args, **kwargs):
@@ -84,7 +102,7 @@ class CartItemDetailApiView(generics.RetrieveUpdateDestroyAPIView):
     queryset = CartItem.objects.all()
     serializer_class = CartItemSerializer
     lookup_field = 'pk'
-
+  
 class CartDetailApiView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Cart.objects.all()
     serializer_class = CartSerializer

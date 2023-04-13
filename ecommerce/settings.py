@@ -12,6 +12,10 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from pathlib import Path
 from decouple import config
+from datetime import timedelta
+
+
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -42,9 +46,16 @@ INSTALLED_APPS = [
     #my app
     'products',
     'cart',
-    'rest_framework',
+    'users',
     'rest_api',
+    'rest_framework',
+    'djoser',
     'django_filters',
+    'rest_framework_simplejwt',
+    'rest_framework_simplejwt.token_blacklist',
+    'corsheaders',
+
+
 
     
     'django.contrib.admin',
@@ -56,6 +67,10 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    # my app 
+    'corsheaders.middleware.CorsMiddleware',
+  
+
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -64,6 +79,16 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:18080",
+    "http://127.0.0.1:18080",
+]
+CORS_ORIGIN_WHITELIST = [
+     "http://localhost:18080",
+     "http://127.0.0.1:18080", 
+]
+CORS_ALLOW_CREDENTIALS = True
 
 ROOT_URLCONF = 'ecommerce.urls'
 
@@ -77,7 +102,8 @@ TEMPLATES = [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages'
+                'django.contrib.messages.context_processors.messages',
+                
             ],
         },
     },
@@ -150,5 +176,26 @@ LOGIN_REDIRECT_URL = 'api/'
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10,
-    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend',]
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend',],
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
 }
+SIMPLE_JWT = {
+    'AUTH_HEADER_TYPES': ('JWT',),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
+}
+DJOSER = {
+    'LOGIN_FIELD': 'email',
+    'SERIALIZERS': {},
+}
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend'
+)
+
+AUTH_USER_MODEL = 'users.User'

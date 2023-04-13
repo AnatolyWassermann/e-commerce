@@ -1,6 +1,6 @@
 from django.db import models
 from products.models import Product
-from django.contrib.auth.models import User
+from users.models import User
 
 
     
@@ -26,3 +26,4 @@ class CartItem(models.Model):
 
     def get_subtotal(self):
         return self.product.price * self.quantity
+    

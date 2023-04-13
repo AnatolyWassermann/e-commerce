@@ -2,17 +2,18 @@ from products.models import Product, Category, ProductFav
 from cart.models import Cart, CartItem
 from .serializers import (ProductSerializer, CategorySerializer, 
                           ProductFavSerializer, CartItemSerializer,
-                          CartSerializer)
+                          CartSerializer, UserSerializer)
 from .filters import (ProductFilter, CategoryFilter, 
                       ProductFavFilter, CartItemFilter,
-                      CartFilter)
+                      CartFilter, UserFilter)
 from rest_framework import viewsets, generics
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from django.views.decorators.cache import cache_page
 from django.utils.decorators import method_decorator
 from django.views.decorators.vary import vary_on_cookie
-from rest_framework.views import  APIView
+from users.models import User
+
 
 
 
@@ -79,6 +80,15 @@ class CartViewSet(viewsets.ModelViewSet):
     @method_decorator(cache_page(60*15))
     def dispatch(self, *args, **kwargs):
         return super(CartViewSet, self).dispatch(*args, **kwargs)
+    
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    filterset_class = UserFilter
+    @method_decorator(vary_on_cookie)
+    @method_decorator(cache_page(60*15))
+    def dispatch(self, *args, **kwargs):
+        return super(UserViewSet, self).dispatch(*args, **kwargs)
 
 
 class ProductDetailApiView(generics.RetrieveUpdateDestroyAPIView):
@@ -93,19 +103,24 @@ class CategoryDetailApiView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = CategorySerializer
     lookup_field = 'pk'
 
-class ProductFavDetailApiView(generics.RetrieveUpdateDestroyAPIView):
+class ProductFavDetailApiView(generics.RetrieveAPIView):
     queryset = ProductFav.objects.all()
     serializer_class = ProductFavSerializer
     lookup_field = 'pk'
 
-class CartItemDetailApiView(generics.RetrieveUpdateDestroyAPIView):
+class CartItemDetailApiView(generics.RetrieveAPIView):
     queryset = CartItem.objects.all()
     serializer_class = CartItemSerializer
     lookup_field = 'pk'
   
-class CartDetailApiView(generics.RetrieveUpdateDestroyAPIView):
+class CartDetailApiView(generics.RetrieveAPIView):
     queryset = Cart.objects.all()
     serializer_class = CartSerializer
+    lookup_field = 'pk'
+
+class UserDetailApiView(generics.RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
     lookup_field = 'pk'
 
 

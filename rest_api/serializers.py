@@ -1,6 +1,6 @@
 from products.models import Product, Category, ProductFav
 from rest_framework import serializers
-from django.contrib.auth.models import User
+from users.models import User
 from cart.models import Cart, CartItem
 
 
@@ -56,3 +56,12 @@ class CartSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Cart
         fields = ['url', 'id', 'user', 'products']
+
+class UserSerializer(serializers.HyperlinkedModelSerializer):
+    url = serializers.HyperlinkedIdentityField(
+        view_name = "user_detail",
+        lookup_field = "pk"
+    )
+    class Meta:
+        model = User
+        fields = ['url', 'id', 'username', 'first_name', 'last_name', 'email']

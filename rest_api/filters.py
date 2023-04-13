@@ -2,6 +2,7 @@ from django_filters import rest_framework as filters
 from products.models import Product, Category, ProductFav
 from django_filters.widgets import BooleanWidget
 from cart.models import Cart, CartItem
+from users.models import User
 
 
 class ProductFilter(filters.FilterSet):
@@ -53,3 +54,13 @@ class CartFilter(filters.FilterSet):
     class Meta:
         model = Cart
         fields = ['user', 'products']
+
+class UserFilter(filters.FilterSet):
+    id = filters.NumberFilter(lookup_expr='exact')
+    username = filters.CharFilter(lookup_expr='icontains')
+
+    class Meta:
+        model = User
+        fields = ['id', 'username']
+
+

@@ -9,7 +9,7 @@ class Cart(models.Model):
     products = models.ManyToManyField(Product, through='CartItem')
 
     def __str__(self):
-        return f"{self.user.username}'s cart"
+        return f"{self.user.email}'s cart"
     
     def get_total(self):
         cart_items = CartItem.objects.filter(cart=self)
@@ -22,7 +22,7 @@ class CartItem(models.Model):
     quantity = models.PositiveIntegerField(default=1)
 
     def __str__(self):
-        return f"{self.cart.user.username}'s cart item N{self.id} for {self.product.title}"
+        return f"{self.cart.user.email}'s cart item N{self.id} for {self.product.title}"
 
     def get_subtotal(self):
         return self.product.price * self.quantity

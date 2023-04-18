@@ -7,4 +7,4 @@ from .models import Cart
 def create_cart(sender, instance, created, **kwargs):
     if created:
         Cart.objects.create(user=instance)
-        print(f"Cart created for {User.username}")
+        print(f"Cart created for {User.email}")

@@ -24,7 +24,7 @@ from rest_api import urls as rest_api_urls
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('models/', include(products_urls)), 
-    path('api/', include(rest_api_urls)),
+    path('', include(rest_api_urls)),
     path('auth/', include('djoser.urls')),
     path('auth/', include('djoser.urls.jwt')),
     

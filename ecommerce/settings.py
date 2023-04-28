@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
     'corsheaders',
+    'celery',
 
 
 
@@ -199,3 +200,9 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 AUTH_USER_MODEL = 'users.User'
+
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+
+CELERY_TIMEZONE = 'UTC'

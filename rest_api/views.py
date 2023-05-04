@@ -91,14 +91,12 @@ class UserViewSet(viewsets.ModelViewSet):
         return super(UserViewSet, self).dispatch(*args, **kwargs)
 
 
-class ProductDetailApiView(generics.RetrieveUpdateDestroyAPIView):
-    
+class ProductDetailApiView(generics.RetrieveUpdateDestroyAPIView):  
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     lookup_field = 'pk'
 
 class CategoryDetailApiView(generics.RetrieveUpdateDestroyAPIView):
-
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
     lookup_field = 'pk'

@@ -7,6 +7,7 @@ from .views import (ProductViewSet, CategoryViewSet,
                     UserViewSet, UserDetailApiView)
 from rest_framework import routers
 
+
 router = routers.DefaultRouter()
 router.register(r'products', ProductViewSet)
 router.register(r'categories', CategoryViewSet)
@@ -24,5 +25,6 @@ path('cart-item/<int:pk>/', CartItemDetailApiView.as_view(), name='cartitem_deta
 path('cart-item/<int:pk>/subtotal/', CartItemViewSet.as_view({'get': 'subtotal'}), name='cart-item-subtotal'),
 path('cart/<int:pk>/', CartDetailApiView.as_view(), name='cart_detail'),
 path('cart/<int:pk>/subtotal/', CartViewSet.as_view({'get': 'total'}), name='cart-total'),
-path('user/<int:pk>/', UserDetailApiView.as_view(), name='user_detail')
+path('user/<int:pk>/', UserDetailApiView.as_view(), name='user_detail'),
+
 ]

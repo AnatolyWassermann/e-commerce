@@ -184,6 +184,7 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
     ],
+    
 }
 SIMPLE_JWT = {
     'AUTH_HEADER_TYPES': ('JWT',),

@@ -213,5 +213,5 @@ CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
 CELERY_TIMEZONE = 'UTC'
 
 SPECTACULAR_SETTINGS = {
-    'TITLE': 'e-commerce',
+    'TITLE': 'e-commerce api project',
 }

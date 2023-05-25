@@ -1,4 +1,6 @@
-/env
-.env
-e-commerce.code-workspace
 Dockerfile
+.env
+schema.yaml
+/env
+e-commerce.code-workspace
+

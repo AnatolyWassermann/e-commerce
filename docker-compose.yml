@@ -1,0 +1,33 @@
+version: '3.4'
+
+services:
+  ecommerce:
+    image: ecommerce
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 8002:8002
+    environment:
+      - SECRET_KEY= ${SECRET_KEY}
+    env_file:
+      - .env
+    depends_on:
+      - postgres
+      - redis
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_HOST: ${DB_HOST}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    env_file:
+      - .env
+  redis:
+    image: redis
+volumes:
+  postgres_data:    
+  

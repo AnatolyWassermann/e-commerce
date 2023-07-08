@@ -28,6 +28,16 @@ services:
       - .env
   redis:
     image: redis
+  nginx:
+    image: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./static:/app/static
+    depends_on:
+      - ecommerce
 volumes:
   postgres_data:    
   
